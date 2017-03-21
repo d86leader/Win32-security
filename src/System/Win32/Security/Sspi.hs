@@ -518,6 +518,7 @@ encryptMessage context qop message seqNo =
 data DecryptMessageStatus
   = DecryptMessageOk
   | DecryptMessageIncomplete
+  | DecryptMessageRenegotiate
   deriving (Eq, Show)
 
 decryptMessage :: PCtxtHandle -> [SecBuffer] -> CULong -> IO (DecryptMessageStatus, QOP, [SecBuffer])
@@ -528,6 +529,7 @@ decryptMessage context message seqNo = do
         errCode <- c_DecryptMessage context pMessage seqNo pfQOP
         status <- case errCode of
           SEC_E_INCOMPLETE_MESSAGE -> return DecryptMessageIncomplete
+          SEC_I_RENEGOTIATE -> return DecryptMessageRenegotiate
           _ -> do
             failUnlessSuccess "DecryptMessage" . return $ fromIntegral errCode
             return DecryptMessageOk
