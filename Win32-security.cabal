@@ -41,6 +41,7 @@ library
       System.Win32.Security.Sid
       System.Win32.Security.SecurityInfo
       System.Win32.Security.Sspi
+      System.Win32.Security.IsWindowsServer
   other-modules:
       System.Win32.Security.Helpers
       System.Win32.Security.Sspi.Internal
